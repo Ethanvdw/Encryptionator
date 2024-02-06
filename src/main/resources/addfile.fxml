@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:controller="com.ethan.encryptionator.controller.AddFile" xmlns:fx="http://javafx.com/fxml">
+    <TextField fx:id="fileNameField" GridPane.columnIndex="1" GridPane.rowIndex="0" promptText="File Name" />
+    <TextField fx:id="fileTypeField" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="File Type" />
+    <TextField fx:id="fileSizeField" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="File Size" />
+    <TextField fx:id="filePathField" GridPane.columnIndex="1" GridPane.rowIndex="3" promptText="File Path" />
+    <Button text="Submit" GridPane.columnIndex="1" GridPane.rowIndex="6" onAction="#addFile" />
+</GridPane>
