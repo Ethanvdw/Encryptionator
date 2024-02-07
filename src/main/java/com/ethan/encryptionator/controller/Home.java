@@ -2,6 +2,7 @@ package com.ethan.encryptionator.controller;
 
 import com.ethan.encryptionator.FileUtils;
 import com.ethan.encryptionator.database.FileDao;
+import com.ethan.encryptionator.database.PermissionDao;
 import com.ethan.encryptionator.database.UserDao;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,6 +25,7 @@ public class Home {
     public Button accountManagementButton;
     public ListView<String> fileListView;
     public Button addFileButton;
+    public ListView sharedFileListView;
     private String username;
     @FXML
     private Label welcomeText;
@@ -38,6 +40,7 @@ public class Home {
         welcomeText.setText("Welcome, " + username + "!");
 
         populateFileList();
+        populateSharedFileList();
 
         fileListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -56,11 +59,17 @@ public class Home {
         fileListView.getItems().addAll(files);
     }
 
+    public void populateSharedFileList() {
+        List<String> sharedFiles = new PermissionDao().getSharedFiles(user_id);
+        sharedFileListView.getItems().clear();
+        sharedFileListView.getItems().addAll(sharedFiles);
+    }
+
     @FXML
     public void onAccountManagementClick() {
         try {
             Stage stage = (Stage) welcomeText.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/accountmanagement.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/account_management.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
 
@@ -74,7 +83,7 @@ public class Home {
     @FXML
     public void openAddFileView() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/addfile.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/add_file.fxml"));
             Parent root = fxmlLoader.load();
 
             AddFile controller = fxmlLoader.getController();
@@ -115,4 +124,21 @@ public class Home {
         FileUtils.editFileContent(filePath);
     }
 
+    @FXML
+    public void openShareView() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/share_file.fxml"));
+            Parent root = fxmlLoader.load();
+
+            ShareFile controller = fxmlLoader.getController();
+            controller.initialize(username, fileListView.getSelectionModel().getSelectedItem()); // Pass the Home controller instance
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -55,18 +55,7 @@ public class FileDao {
 
     public List<String> getFiles(int user_id) {
         String query = "SELECT file_name FROM Files WHERE user_id = ?";
-        List<String> files = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(CONNECTION_URL);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, user_id);
-            var rs = stmt.executeQuery();
-            while (rs.next()) {
-                files.add(rs.getString("file_name"));
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.WARNING, e.getMessage());
-        }
-        return files;
+        return getStrings(user_id, query);
     }
 
     public void deleteFile(String selectedFile, int user_id) {
@@ -97,5 +86,37 @@ public class FileDao {
         }
         return null;
     }
-}
 
+
+    private List<String> getStrings(int userId, String query) {
+        List<String> files = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(CONNECTION_URL);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                files.add(rs.getString("file_name"));
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARNING, e.getMessage());
+        }
+        return files;
+    }
+
+
+    public int getFileId(String fileName, int userId) {
+        String query = "SELECT file_id FROM Files WHERE file_name = ? AND user_id = ?";
+        try (Connection conn = DriverManager.getConnection(CONNECTION_URL);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, fileName);
+            stmt.setInt(2, userId);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("file_id");
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARNING, e.getMessage());
+        }
+        return -1;
+    }
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      fx:controller="com.ethan.encryptionator.controller.ShareFile" spacing="10">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <Label fx:id="infoText"/>
+    <Label fx:id="usernameLabel"/>
+    <Label fx:id="fileNameLabel"/>
+    <ComboBox fx:id="userList" promptText="Select User"/>
+    <ComboBox fx:id="permissionList" promptText="Select Permission"/>
+    <Button fx:id="shareButton" text="Share" onAction="#onShareButtonClick"/>
+
+
+    <Button fx:id="backButton" text="Back" onAction="#onBackButtonClick"/>
+
+</VBox>

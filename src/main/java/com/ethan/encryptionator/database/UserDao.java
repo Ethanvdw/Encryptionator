@@ -222,5 +222,15 @@ public boolean changeEmail(String username, String newEmail) {
         }
         return true;
     }
+
+    public String[] getAllUsernames() {
+        List<String[]> users = getAllUsers();
+        String[] usernames = new String[users.size()];
+        for (int i = 0; i < users.size(); i++) {
+            usernames[i] = users.get(i)[0];
+        }
+        return usernames;
+    }
+
 }
 

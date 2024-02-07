@@ -81,8 +81,8 @@ public class Database {
                 "permission_id INTEGER PRIMARY KEY," +
                 "user_id INTEGER," +
                 "file_id INTEGER," +
-                "folder_id INTEGER," +
                 "permission_type TEXT NOT NULL," +
+                "access_level TEXT," +
                 "FOREIGN KEY(user_id) REFERENCES Users(user_id)," +
                 "FOREIGN KEY(file_id) REFERENCES Files(file_id)," +
                 "FOREIGN KEY(folder_id) REFERENCES Folders(folder_id)" +
