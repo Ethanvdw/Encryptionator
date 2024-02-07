@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.ethan.encryptionator.controller.Home"
-            prefHeight="400.0" prefWidth="600.0">
+>
     <VBox alignment="CENTER" spacing="10">
         <Label fx:id="welcomeText" text="Welcome!"/>
         <Button fx:id="accountManagementButton" text="Account Management" onAction="#onAccountManagementClick">

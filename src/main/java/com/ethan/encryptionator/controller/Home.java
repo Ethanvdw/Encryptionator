@@ -3,6 +3,7 @@ package com.ethan.encryptionator.controller;
 import com.ethan.encryptionator.FileUtils;
 import com.ethan.encryptionator.database.FileDao;
 import com.ethan.encryptionator.database.UserDao;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,6 +13,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,12 +30,6 @@ public class Home {
 
     private int user_id;
 
-
-    public List<String> getUserFiles(int user_id) {
-        FileDao fileDao = new FileDao();
-        return fileDao.getFiles(user_id);
-    }
-
     public void initialize(String username) {
         this.username = username;
 
@@ -41,17 +37,23 @@ public class Home {
         this.user_id = userDao.getUserId(username);
         welcomeText.setText("Welcome, " + username + "!");
 
-        List<String> files = getUserFiles(user_id);
-
         populateFileList();
 
-        fileListView.setOnMouseClicked(event -> {
+        fileListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
             if (event.getClickCount() == 2) {
                 editFile();
             }
+            }
         });
+    }
 
-
+    private void populateFileList() {
+        FileDao fileDao = new FileDao();
+        List<String> files = fileDao.getFiles(user_id);
+        fileListView.getItems().clear();
+        fileListView.getItems().addAll(files);
     }
 
     @FXML
@@ -86,12 +88,6 @@ public class Home {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void populateFileList() {
-        List<String> files = getUserFiles(user_id);
-        fileListView.getItems().clear();
-        fileListView.getItems().addAll(files);
     }
 
     @FXML

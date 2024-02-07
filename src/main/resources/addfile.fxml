@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<GridPane fx:controller="com.ethan.encryptionator.controller.AddFile" xmlns:fx="http://javafx.com/fxml">
-    <TextField fx:id="fileNameField" GridPane.columnIndex="1" GridPane.rowIndex="0" promptText="File Name" />
-    <TextField fx:id="fileTypeField" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="File Type" />
-    <TextField fx:id="fileSizeField" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="File Size" />
-    <TextField fx:id="filePathField" GridPane.columnIndex="1" GridPane.rowIndex="3" promptText="File Path" />
-    <Button fx:id="editFileButton" text="Edit File" onAction="#editFileContent"/>
-    <Button text="Submit" GridPane.columnIndex="1" GridPane.rowIndex="6" onAction="#addFile" />
-</GridPane>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      fx:controller="com.ethan.encryptionator.controller.AddFile" spacing="10">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <TextField fx:id="fileNameField" promptText="File Name"/>
+    <TextField fx:id="fileTypeField" promptText="File Extension"/>
+    <Button fx:id="editFileButton" onAction="#editFileContent" text="Edit File"/>
+    <Button fx:id="browseButton" onAction="#browseFile" text="Browse"/>
+    <Button onAction="#addFile" text="Submit"/>
+</VBox>
