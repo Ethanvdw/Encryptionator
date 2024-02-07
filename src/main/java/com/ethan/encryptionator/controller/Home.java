@@ -113,7 +113,7 @@ public class Home {
         // Select file from list
         String selectedFile = fileListView.getSelectionModel().getSelectedItem();
         FileDao fileDao = new FileDao();
-        String filePath = fileDao.getFilePath(selectedFile, user_id);
+        String filePath = "app/" + user_id + "/" + selectedFile;
 
         // Open the file in the default text editor
         FileUtils.editFileContent(filePath);
