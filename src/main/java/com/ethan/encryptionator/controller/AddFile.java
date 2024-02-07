@@ -1,12 +1,17 @@
 package com.ethan.encryptionator.controller;
 
+import com.ethan.encryptionator.FileUtils;
 import com.ethan.encryptionator.database.FileDao;
 import com.ethan.encryptionator.database.UserDao;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class AddFile {
     @FXML
@@ -17,10 +22,9 @@ public class AddFile {
     private TextField fileSizeField;
     @FXML
     private TextField filePathField;
-    @FXML
-    private TextField uploadDateField;
     private String username;
     private Home homeController;
+    private String filePath;
 
     public void setHomeController(Home homeController) {
         this.homeController = homeController;
@@ -30,7 +34,8 @@ public class AddFile {
         this.username = username;
     }
 
-    public void addFile(ActionEvent actionEvent) {
+
+    public void addFile() {
         String fileName = fileNameField.getText();
         UserDao userDao = new UserDao();
         int userId = userDao.getUserId(username);
@@ -45,7 +50,17 @@ public class AddFile {
         } else {
             String fileType = fileTypeField.getText();
             String fileSize = fileSizeField.getText();
-            String filePath = filePathField.getText();
+            filePath = "/app/" + userId; // Set the file path to /app/ followed by the user's id
+
+            Path path = Paths.get(filePath);
+            // Check if the directory exists, if not create it
+            if (!Files.exists(path)) {
+                try {
+                    Files.createDirectories(path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
             fileDao.register(fileName, fileType, fileSize, filePath, userId);
 
@@ -60,5 +75,15 @@ public class AddFile {
         }
         homeController.initialize(username);
     }
-}
 
+    @FXML
+    public void editFileContent() {
+        String fileName = fileNameField.getText();
+        UserDao userDao = new UserDao();
+        int userId = userDao.getUserId(username);
+        FileDao fileDao = new FileDao();
+        filePath = "app/" + userId + "/" + fileName + ".txt"; // Add the file extension if needed
+
+        FileUtils.editFileContent(filePath);
+    }
+}

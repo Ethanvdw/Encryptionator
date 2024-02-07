@@ -1,16 +1,17 @@
 package com.ethan.encryptionator.controller;
 
+import com.ethan.encryptionator.FileUtils;
 import com.ethan.encryptionator.database.FileDao;
 import com.ethan.encryptionator.database.UserDao;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,8 +27,7 @@ public class Home {
     private Label welcomeText;
 
     private int user_id;
-    
-    
+
 
     public List<String> getUserFiles(int user_id) {
         FileDao fileDao = new FileDao();
@@ -43,8 +43,15 @@ public class Home {
 
         List<String> files = getUserFiles(user_id);
 
-        fileListView.getItems().clear();
-        fileListView.getItems().addAll(files);
+        populateFileList();
+
+        fileListView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                editFile();
+            }
+        });
+
+
     }
 
     @FXML
@@ -62,38 +69,54 @@ public class Home {
         }
     }
 
-@FXML
-public void openAddFileView() {
-    try {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/addfile.fxml"));
-        Parent root = fxmlLoader.load();
+    @FXML
+    public void openAddFileView() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/addfile.fxml"));
+            Parent root = fxmlLoader.load();
 
-        AddFile controller = fxmlLoader.getController();
-        controller.setUsername(username);
-        controller.setHomeController(this); // Pass the Home controller instance
+            AddFile controller = fxmlLoader.getController();
+            controller.setUsername(username);
+            controller.setHomeController(this); // Pass the Home controller instance
 
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.show();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
 
-    } catch (IOException e) {
-        e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
 
-@FXML
-public void deleteFile() {
-    String selectedFile = fileListView.getSelectionModel().getSelectedItem();
-    FileDao fileDao = new FileDao();
-    fileDao.deleteFile(selectedFile, user_id);
-    initialize(username);
+    private void populateFileList() {
+        List<String> files = getUserFiles(user_id);
+        fileListView.getItems().clear();
+        fileListView.getItems().addAll(files);
+    }
 
-    // Display confirmation message
-    Alert alert = new Alert(AlertType.INFORMATION);
-    alert.setTitle("File Deletion");
-    alert.setHeaderText(null);
-    alert.setContentText("File has been successfully deleted.");
-    alert.showAndWait();
-}
+    @FXML
+    public void deleteFile() {
+        String selectedFile = fileListView.getSelectionModel().getSelectedItem();
+        FileDao fileDao = new FileDao();
+        fileDao.deleteFile(selectedFile, user_id);
+        initialize(username);
+
+        // Display confirmation message
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("File Deletion");
+        alert.setHeaderText(null);
+        alert.setContentText("File has been successfully deleted.");
+        alert.showAndWait();
+    }
+
+    public void editFile() {
+        // Select file from list
+        String selectedFile = fileListView.getSelectionModel().getSelectedItem();
+        FileDao fileDao = new FileDao();
+        String filePath = fileDao.getFilePath(selectedFile, user_id);
+
+        // Open the file in the default text editor
+        FileUtils.editFileContent(filePath);
+    }
 
 }

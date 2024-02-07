@@ -1,11 +1,9 @@
 package com.ethan.encryptionator.database;
 
-import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -82,6 +80,22 @@ public class FileDao {
         } catch (SQLException e) {
             LOGGER.log(Level.WARNING, e.getMessage());
         }
+    }
+
+    public String getFilePath(String fileName, int userId) {
+        String query = "SELECT file_path FROM Files WHERE file_name = ? AND user_id = ?";
+        try (Connection conn = DriverManager.getConnection(CONNECTION_URL);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, fileName);
+            stmt.setInt(2, userId);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("file_path");
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARNING, e.getMessage());
+        }
+        return null;
     }
 }
 
