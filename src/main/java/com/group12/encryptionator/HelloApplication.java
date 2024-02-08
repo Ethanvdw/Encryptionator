@@ -1,6 +1,6 @@
-package com.ethan.encryptionator;
+package com.group12.encryptionator;
 
-import com.ethan.encryptionator.database.Database;
+import com.group12.encryptionator.database.Database;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

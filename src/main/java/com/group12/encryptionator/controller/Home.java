@@ -1,9 +1,9 @@
-package com.ethan.encryptionator.controller;
+package com.group12.encryptionator.controller;
 
-import com.ethan.encryptionator.FileUtils;
-import com.ethan.encryptionator.database.FileDao;
-import com.ethan.encryptionator.database.PermissionDao;
-import com.ethan.encryptionator.database.UserDao;
+import com.group12.encryptionator.FileUtils;
+import com.group12.encryptionator.database.FileDao;
+import com.group12.encryptionator.database.PermissionDao;
+import com.group12.encryptionator.database.UserDao;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class Home {
+
+//    TODO: Delete file, encrypt files, chunk, and docker stuff
 
     public Button accountManagementButton;
     public ListView<String> fileListView;
@@ -61,6 +63,7 @@ public class Home {
 
     public void populateSharedFileList() {
         List<String> sharedFiles = new PermissionDao().getSharedFiles(user_id);
+        System.out.println("Shared files: " + sharedFiles);
         sharedFileListView.getItems().clear();
         sharedFileListView.getItems().addAll(sharedFiles);
     }

@@ -1,4 +1,4 @@
-package com.ethan.encryptionator.database;
+package com.group12.encryptionator.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -79,13 +79,13 @@ public class Database {
     private void createPermissionsTable(Statement stmt) {
         String sql = "CREATE TABLE IF NOT EXISTS Permissions (" +
                 "permission_id INTEGER PRIMARY KEY," +
-                "user_id INTEGER," +
+                "sharer_id INTEGER," +
+                "recipient_id INTEGER," +
                 "file_id INTEGER," +
                 "permission_type TEXT NOT NULL," +
-                "access_level TEXT," +
-                "FOREIGN KEY(user_id) REFERENCES Users(user_id)," +
-                "FOREIGN KEY(file_id) REFERENCES Files(file_id)," +
-                "FOREIGN KEY(folder_id) REFERENCES Folders(folder_id)" +
+                "FOREIGN KEY(sharer_id) REFERENCES Users(user_id)," +
+                "FOREIGN KEY(recipient_id) REFERENCES Users(user_id)," +
+                "FOREIGN KEY(file_id) REFERENCES Files(file_id)" +
                 ");";
         executeSQL(stmt, sql);
     }

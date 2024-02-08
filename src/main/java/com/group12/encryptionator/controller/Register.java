@@ -1,6 +1,6 @@
-package com.ethan.encryptionator.controller;
+package com.group12.encryptionator.controller;
 
-import com.ethan.encryptionator.database.UserDao;
+import com.group12.encryptionator.database.UserDao;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

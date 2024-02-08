@@ -1,4 +1,4 @@
-package com.ethan.encryptionator.database;
+package com.group12.encryptionator.database;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,16 +10,16 @@ public class PermissionDao {
     private static final String CONNECTION_URL = "jdbc:sqlite:file_management.db";
     private static final Logger LOGGER = Logger.getLogger(UserDao.class.getName());
 
-    public static void shareFile(int userId, int fileId, String permissionType, String accessLevel) {
-        String sql = "INSERT INTO Permissions(user_id, file_id, permission_type, access_level) VALUES(?, ?, ?, ?)";
+    public static void shareFile(int sharerId, int recipientId, int fileId, String permissionType) {
+        String sql = "INSERT INTO Permissions(sharer_id, recipient_id, file_id, permission_type) VALUES(?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(CONNECTION_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, userId);
-            pstmt.setInt(2, fileId);
-            pstmt.setString(3, permissionType);
-            pstmt.setString(4, accessLevel);
+            pstmt.setInt(1, sharerId);
+            pstmt.setInt(2, recipientId);
+            pstmt.setInt(3, fileId);
+            pstmt.setString(4, permissionType);
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -28,16 +28,16 @@ public class PermissionDao {
     }
 
 
-    public List<String> getSharedFiles(int userId) {
+    public List<String> getSharedFiles(int recipientId) {
         List<String> sharedFiles = new ArrayList<>();
-        String sql = "SELECT file_id, file_name, file_type, file_size, file_path, upload_date FROM Files " +
+        String sql = "SELECT Files.file_id, file_name, file_type, file_size, file_path, upload_date FROM Files " +
                 "JOIN Permissions ON Files.file_id = Permissions.file_id " +
-                "WHERE user_id = ?";
+                "WHERE Permissions.recipient_id = ?";
 
         try (Connection conn = DriverManager.getConnection(CONNECTION_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, userId);
+            pstmt.setInt(1, recipientId);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -53,7 +53,7 @@ public class PermissionDao {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Failed to retrieve shared files", e);
         }
-
+        System.out.println("Shared files: " + sharedFiles);
         return sharedFiles;
     }
 }

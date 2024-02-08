@@ -1,8 +1,8 @@
-package com.ethan.encryptionator.controller;
+package com.group12.encryptionator.controller;
 
-import com.ethan.encryptionator.database.FileDao;
-import com.ethan.encryptionator.database.PermissionDao;
-import com.ethan.encryptionator.database.UserDao;
+import com.group12.encryptionator.database.FileDao;
+import com.group12.encryptionator.database.PermissionDao;
+import com.group12.encryptionator.database.UserDao;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -74,11 +74,12 @@ public class ShareFile {
         String selectedUser = userList.getSelectionModel().getSelectedItem().toString();
         String selectedPermission = permissionList.getSelectionModel().getSelectedItem().toString();
 
-        int userId = userDao.getUserId(selectedUser);
+        int sharerId = userDao.getUserId(username);
+        int recipientId = userDao.getUserId(selectedUser);
         FileDao fileDao = new FileDao();
-        int fileId = fileDao.getFileId(sharedFile, userDao.getUserId(username));
+        int fileId = fileDao.getFileId(sharedFile, sharerId);
 
-        PermissionDao.shareFile(userId, fileId, selectedPermission, "Full");
+        PermissionDao.shareFile(sharerId, recipientId, fileId, selectedPermission);
 
         infoText.setText("File shared successfully with " + selectedUser);
     }

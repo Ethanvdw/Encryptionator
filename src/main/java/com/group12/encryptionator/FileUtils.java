@@ -1,4 +1,4 @@
-package com.ethan.encryptionator;
+package com.group12.encryptionator;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,4 +1,4 @@
-package com.ethan.encryptionator.database;
+package com.group12.encryptionator.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

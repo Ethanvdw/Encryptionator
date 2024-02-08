@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea"
-            fx:controller="com.ethan.encryptionator.controller.Home">
-    <Label fx:id="welcomeText" text="Welcome!" AnchorPane.topAnchor="0"/>
-    <SplitPane dividerPositions="0.5" layoutX="129.0" layoutY="-54.0" prefHeight="160.0" prefWidth="200.0"
-               AnchorPane.topAnchor="30" AnchorPane.bottomAnchor="40">
-        <ListView fx:id="fileListView"/>
-        <ListView fx:id="sharedFileListView" prefHeight="200" prefWidth="200"/>
-    </SplitPane>
-    <ButtonBar layoutX="-14.0" layoutY="106.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0">
-        <buttons>
-            <Button onAction="#deleteFile" text="Delete"/>
-            <Button onAction="#editFile" text="Edit"/>
-            <Button fx:id="addFileButton" onAction="#openAddFileView" text="Add File"/>
-            <Button mnemonicParsing="false" onAction="#openShareView" text="Share"/>
-            <Button fx:id="accountManagementButton" onAction="#onAccountManagementClick" text="Account Management">
-            </Button>
-        </buttons>
-    </ButtonBar>
-</AnchorPane>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      fx:controller="com.group12.encryptionator.controller.Home">
+    <Label fx:id="welcomeText" text="Welcome!"/>
+    <Button fx:id="accountManagementButton" onAction="#onAccountManagementClick" text="Account Management"/>
+    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="My Files">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <ListView fx:id="fileListView"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Shared with me">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <ListView fx:id="sharedFileListView" prefHeight="200" prefWidth="200"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+    <VBox>
+        <Button fx:id="addFileButton" onAction="#openAddFileView" text="Add File"/>
+        <Button onAction="#editFile" text="Edit"/>
+        <Button mnemonicParsing="false" onAction="#openShareView" text="Share"/>
+        <Button onAction="#deleteFile" text="Delete"/>
+    </VBox>
+</VBox>

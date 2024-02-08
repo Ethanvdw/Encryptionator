@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.ethan.encryptionator.controller.AccountManagement"
+            fx:controller="com.group12.encryptionator.controller.AccountManagement"
             prefHeight="400.0" prefWidth="600.0">
     <children>
         <VBox alignment="CENTER" spacing="10" layoutX="200" layoutY="150">
